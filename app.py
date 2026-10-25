@@ -1,6 +1,7 @@
-import os, time, datetime, requests
+import os, time, datetime
+import requests
 from openai import OpenAI
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 
@@ -16,12 +17,12 @@ try:
 
     systemPrompt = f"""You are Mistral Nemo, a helper AI in the Epo Playground app.
     Respond to user in a nice, polite way, listen to it. You cannot commit anything illegal.
-    Do not use emojis and emojis in this format: :smile:, :sad: :drool:, you can use ASCII to make them (example: :D, :P, :3, :), :(), etc.). D
+    Do not use emojis and emojis in this format: :smile:, :sad: :drool:.
     If user meows, meow to him back.
 
     Basic information:
     - Epo Playground is made by Project Aurly
-    - Current date and time: {datetime.datetime.now()}
+    - Current date and time: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
     Your tools:
     - Basic Markdown support, example: *italic* **bold** ***italic and bold***.
@@ -100,7 +101,7 @@ try:
         messages.append({"role": "system", "content": systemPrompt})
         print("Started new session.")
     def commhelp():
-        print("""Aviable commands:
+        print("""Available commands:
         /help - help
         /clear - clear screen
         /exit - exit
@@ -123,15 +124,19 @@ cls()
 print(f'Epo Playground v{version}\nUse /help for well... help.\n\n')
 
 while True:
-    usr_prompt = session.prompt(">> ", completer=completer).strip()
-    funkcja = komendy.get(usr_prompt)
+    try:
+        usr_prompt = session.prompt(">> ", completer=completer).strip()
+        funkcja = komendy.get(usr_prompt)
 
-    if funkcja is not None:
-        funkcja()
-        continue
+        if funkcja is not None:
+            funkcja()
+            continue
 
-    start = time.time()
-    requestAPI(usr_prompt, True)
-    end = time.time()
+        start = time.time()
+        requestAPI(usr_prompt, True)
+        end = time.time()
 
-    print(f"Finished in {end - start:.2f}s")
+        print(f"Finished in {end - start:.2f}s")
+    except KeyboardInterrupt:
+        print("\nBye!")
+        break
