@@ -1,0 +1,6 @@
+{
+    "firstTime": false,
+    "defaultModel": "mistralai/mistral-nemo",
+    "username": "User", 
+    "enabledProviders": []
+}

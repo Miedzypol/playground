@@ -10,6 +10,8 @@ from prompt_toolkit.styles import Style
 import utils
 import sys
 import shutil
+import json
+import communication
 from pathlib import Path
 
 os.system("cls" if os.name == "nt" else "clear")
@@ -19,13 +21,23 @@ utils.printlogo(printmesg=True)
 print("Zmienne", end='... ')
 
 chosenModel = config.get('General', 'default_model')
-availableModels = [
-    "recursive/flint-v1.0:free",
-    "poolside/laguna-s-2.1:free",
-    "mistralai/mistral-nemo",
-    "inclusionai/ling-3.0-flash",
-    "openai/gpt-oss-120b",
-]
+availableModels = {
+    "openrouter": [
+        "recursive/flint-v1.0:free",
+        "poolside/laguna-s-2.1:free",
+        "mistralai/mistral-nemo",
+        "inclusionai/ling-3.0-flash",
+        "openai/gpt-oss-120b"
+    ],
+
+    "groq": [
+        "llama-3.3-70b-versatile",
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b",
+        "qwen/qwen3.8-27b"
+    ],
+    "local": []
+}
 
 APP_DIR = Path(__file__).resolve().parent
 LOCAL_MODELS_DIR = APP_DIR / "models"
@@ -44,6 +56,9 @@ MENU_STYLE = Style.from_dict({
 
 
 try:
+
+    with open("save.json", "r") as file:
+        save = json.load(file)
 
     _base_system_prompt = f"""You are Mistral Nemo, a helper AI in the Epo Playground app.
     Respond to user in a nice, polite way, listen to it. You cannot commit anything illegal.
@@ -98,61 +113,7 @@ finally:
 print("Functions", end='... ')
 
 try:
-    def requestAPI(prompt, boolStream):
-        if chosenModel.startswith("local:"):
-            model_info = LOCAL_MODELS_REGISTRY.get(chosenModel)
-            if not model_info:
-                print(f"\nNie znaleziono modelu lokalnego: {chosenModel}")
-                return
-            try:
-                from llama_cpp import Llama
-            except ImportError:
-                print("\nDo uzycia modeli lokalnych wymagana jest biblioteka llama-cpp-python.")
-                print("Zainstaluj: pip install llama-cpp-python")
-                return
-            print("\nInicjalizacja modelu lokalnego (moze zajac chwile)...")
-            messages.append({"role": "user", "content": prompt})
-            try:
-                llm = Llama(model_path=model_info["path"], n_ctx=2048, verbose=False)
-            except Exception as e:
-                print(f"\nBlad ladowania modelu: {e}")
-                print("Sprawdz czy plik modelu jest prawidlowy i czy biblioteka llama-cpp-python jest aktualna.")
-                return
-            prompt_text = f"{systemPrompt}\n\nUser: {prompt}\nAssistant:"
-            full = ""
-            print("\nAI: ", end="", flush=True)
-            is_first = True
-            for chunk in llm(prompt_text, max_tokens=512, stop=["\n\nUser:", "\n\nAssistant:"], stream=True):
-                text = chunk["choices"][0]["text"]
-                if text:
-                    if is_first:
-                        text = text.lstrip("\n")
-                        is_first = False
-                    print(text, end="", flush=True)
-                    full += text
-            print()
-            messages.append({"role": "assistant", "content": full})
-        else:
-            messages.append({"role": "user", "content": prompt})
-            stream = client.chat.completions.create(
-            model=chosenModel,
-            messages=messages,
-            stream=True,
-            )
-            full = ""
-            print("\nAI: ", end="", flush=True)
-            is_first = True
-            for chunk in stream:
-                text = chunk.choices[0].delta.content
-                if text:
-                    text = text.replace("\\n", "\n")
-                    if is_first:
-                        text = text.lstrip("\n")
-                        is_first = False
-                    print(text, end="", flush=True)
-                    full += text
-            print()
-            messages.append({"role": "assistant", "content": full})
+    
     def cls():
         os.system("cls" if os.name == "nt" else "clear")
     def commcls():
@@ -289,8 +250,8 @@ try:
             "series": "Mosaic v1",
         }
         local_entry = model_id
-        if local_entry not in availableModels:
-            availableModels.append(local_entry)
+        if local_entry not in availableModels["local"]:
+            availableModels["local"].append(local_entry)
         chosenModel = local_entry
         _update_system_prompt()
         print(f"\nPrzelaczono na model: Mosaic v1 - QuickFix-2B (lokalny)")
@@ -311,8 +272,8 @@ try:
                 "system_prompt_path": sp,
                 "series": rel.parent.name,
             }
-            if model_id not in availableModels:
-                availableModels.append(model_id)
+            if model_id not in availableModels["local"]:
+                availableModels["local"].append(model_id)
 
     def commmenu():
         choice = radiolist_dialog(
@@ -347,6 +308,8 @@ except Exception as error:
 
 print("OK")
 
+if not save["firstTime"]:
+    print(f"It's your first time using Epo Playground, I see...\n")
 
 
 
