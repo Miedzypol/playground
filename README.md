@@ -1,72 +1,72 @@
 # Epo Playground
 
-> **CLI do komunikacji z Agentami AI**
+> **CLI for communicating with AI Agents**
 
-Epo Playground to narzędzie wiersza poleceń do interakcji z modelami AI, inspirowane interfejsami Pi oraz OpenCode CLI. Obecnie korzysta z API OpenRouter, z planami migracji na własny serwer w przyszłości.
-
----
-
-## ✨ Funkcje
-
-- **Interaktywny interfejs CLI** – Czytelny, kolorowy interfejs z obsługą komend
-- **Wiele modeli AI** – Obsługa różnych modeli z OpenRouter
-- **Modele lokalne** – Możliwość uruchamiania lokalnych modeli GGUF poprzez llama-cpp-python
-- **Strumieniowanie odpowiedzi** – Odpowiedzi wyświetlane w czasie rzeczywistym
-- **Zarządzanie sesjami** – Rozpoczynanie nowych sesji i czyszczenie historii
-- **System prompty** – Konfigurowalne prompty systemowe dla różnych modeli
-- **Pobieranie modeli** – Wbudowany system pobierania modeli lokalnych
-- **Autouzupełnianie** – Inteligentne podpowiadanie komend
+Epo Playground is a command-line interface tool for interacting with AI models, inspired by Pi and OpenCode CLI interfaces. Currently uses OpenRouter API, with plans to migrate to a custom server in the future.
 
 ---
 
-## 📦 Instalacja
+## Features
 
-### Wymagania
-- Python 3.10 lub nowszy
-- pip (menedżer pakietów Python)
+- **Interactive CLI** - Clean, colored interface with command support
+- **Multiple AI Models** - Support for various models from OpenRouter
+- **Local Models** - Run local GGUF models via llama-cpp-python
+- **Streaming Responses** - Real-time response display
+- **Session Management** - Start new sessions and clear chat history
+- **System Prompts** - Configurable system prompts for different models
+- **Model Downloading** - Built-in system for downloading local models
+- **Auto-completion** - Intelligent command suggestions
 
-### Szybka instalacja
+---
+
+## Installation
+
+### Requirements
+- Python 3.10 or higher
+- pip (Python package manager)
+
+### Quick Install
 
 ```bash
-# Sklonuj repozytorium
+# Clone the repository
 git clone https://github.com/Miedzypol/playground.git
 cd playground
 
-# Utwórz wirtualne środowisko (opcjonalnie, ale zalecane)
+# Create virtual environment (optional but recommended)
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
-# lub
+# or
 venv\Scripts\activate  # Windows
 
-# Zainstaluj zależności
+# Install dependencies
 pip install -r requirements.txt
 
-# Skopiuj plik konfiguracyjny środowiska
+# Copy environment config file
 cp .env.example .env
 
-# Edytuj .env i dodaj swój klucz API OpenRouter
+# Edit .env and add your OpenRouter API key
 nano .env  # Linux/Mac
-# lub
+# or
 notepad .env  # Windows
 ```
 
 ---
 
-## ⚙️ Konfiguracja
+## Configuration
 
-### Klucz API OpenRouter
+### OpenRouter API Key
 
-1. Zarejestruj się na [OpenRouter](https://openrouter.ai/)
-2. Wygeneruj klucz API w panelu użytkownika
-3. Dodaj klucz do pliku `.env`:
+1. Register at [OpenRouter](https://openrouter.ai/)
+2. Generate an API key in your user panel
+3. Add the key to your `.env` file:
 
 ```env
-OPENROUTER_API_KEY=twoj_klucz_api_tutaj
+OPENROUTER_API_KEY=your_api_key_here
 ```
 
-### Opcjonalne ustawienia
+### Optional Settings
 
-W pliku `.env` możesz również zdefiniować domyślny model:
+In the `.env` file, you can also define the default model:
 
 ```env
 MODEL=mistralai/mistral-nemo
@@ -74,36 +74,36 @@ MODEL=mistralai/mistral-nemo
 
 ---
 
-## 🚀 Użycie
+## Usage
 
-### Uruchomienie
+### Running
 
 ```bash
 python app.py
 ```
 
-### Dostępne komendy
+### Available Commands
 
-| Komenda | Opis |
-|---------|------|
-| `/help` | Wyświetla pomoc |
-| `/clear` | Czyści ekran |
-| `/exit` | Zamknięcie aplikacji |
-| `/new` | Rozpoczyna nową sesję (czyści historię czatu) |
-| `/model` | Zmiana modelu AI |
-| `/menu` | Otwiera menu aplikacji |
+| Command | Description |
+|---------|-------------|
+| `/help` | Show help |
+| `/clear` | Clear screen |
+| `/exit` | Exit application |
+| `/new` | Start new session (clear chat history) |
+| `/model` | Change AI model |
+| `/menu` | Open application menu |
 
-### Podstawowa interakcja
+### Basic Interaction
 
-Po uruchomieniu możesz od razu zadawać pytania:
+After launching, you can immediately ask questions:
 
 ```
->> Cześć, jak się masz?
+>> Hello, how are you?
 
-AI: Cześć! Mam się dobrze, dziękuję za pytanie. Jak mogę Ci pomóc?
+AI: Hello! I'm doing well, thank you for asking. How can I help you?
 
 >> /model
-# Otwiera interaktywny wybór modelu
+# Opens interactive model selection
 
 >> /new
 Started new session.
@@ -114,23 +114,23 @@ Bye!
 
 ---
 
-## 🔧 Modele lokalne
+## Local Models
 
-### Obsługiwane modele
+### Supported Models
 
-Aplikacja obsługuje lokalne modele w formacie GGUF, uruchamiane poprzez `llama-cpp-python`.
+The application supports local GGUF models running via `llama-cpp-python`.
 
-### Dostępne serie modeli
+### Available Model Series
 
-- **Mosaic v1** – Model QuickFix-2B
+- **Mosaic v1** - QuickFix-2B model
 
-### Pobieranie modeli
+### Downloading Models
 
-1. Wybierz opcję "Przetestuj lokalnie modele Epo..." z menu
-2. Wybierz serię modeli (np. Mosaic v1)
-3. Aplikacja automatycznie pobierze model i system prompt (jeśli dostępny)
+1. Select "Test local Epo models..." from the menu
+2. Choose a model series (e.g., Mosaic v1)
+3. The application will automatically download the model and system prompt (if available)
 
-Modele są przechowywane w katalogu `models/` w strukturze:
+Models are stored in the `models/` directory with this structure:
 ```
 models/
 └── mosaic/
@@ -139,31 +139,31 @@ models/
         └── system-prompt.md
 ```
 
-### Ręczne dodawanie modeli
+### Manual Model Addition
 
-1. Umieść plik `.gguf` w katalogu `models/<seria>/<wersja>/`
-2. Opcjonalnie: dodaj plik `system-prompt.md` w tym samym katalogu
-3. Uruchom aplikację – modele zostaną automatycznie wykryte
+1. Place your `.gguf` file in `models/<series>/<version>/`
+2. Optionally: add a `system-prompt.md` file in the same directory
+3. Launch the application - models will be automatically detected
 
 ---
 
-## 📁 Struktura projektu
+## Project Structure
 
 ```
 playground/
-├── app.py              # Główna aplikacja CLI
-├── utils.py            # Funkcje narzędziowe
-├── config.ini          # Konfiguracja aplikacji
-├── requirements.txt    # Zależności Python
-├── .env.example        # Szablon zmiennych środowiskowych
-├── .gitignore          # Ignorowane pliki
-├── LICENSE             # Licencja (BSD 3-Clause)
-└── AGENTS.md           # Wytyczne dla agentów AI
+├── app.py              # Main CLI application
+├── utils.py            # Utility functions
+├── config.ini          # Application configuration
+├── requirements.txt    # Python dependencies
+├── .env.example        # Environment variables template
+├── .gitignore          # Ignored files
+├── LICENSE             # License (BSD 3-Clause)
+└── AGENTS.md           # AI agents guidelines
 ```
 
 ---
 
-## 📝 Konfiguracja
+## Configuration
 
 ### config.ini
 
@@ -173,51 +173,51 @@ version = 1.2
 default_model = mistralai/mistral-nemo
 ```
 
-### Dostępne modele (domyślne)
+### Default Available Models
 
 - `recursive/flint-v1.0:free`
 - `poolside/laguna-s-2.1:free`
-- `mistralai/mistral-nemo` (domyślny)
+- `mistralai/mistral-nemo` (default)
 - `inclusionai/ling-3.0-flash`
 - `openai/gpt-oss-120b`
 
 ---
 
-## 🔄 Migracja na własny serwer
+## Migration to Custom Server
 
-W przyszłości planowana jest migracja z OpenRouter API na własny serwer do komunikacji z modelami AI. Struktura aplikacji jest przygotowana na tę zmianę.
-
----
-
-## 🤝 Wkład
-
-Wkłady są mile widziane! Jeśli chcesz pomóc:
-
-1. Rozpocznij fork repozytorium
-2. Utwórz nowy branch (`git checkout -b feature/nazwa`)
-3. Dokonaj zmian i commit (`git commit -m 'Dodano nową funkcję'`)
-4. Wyślij Pull Request
+In the future, migration from OpenRouter API to a custom server for AI model communication is planned. The application structure is prepared for this change.
 
 ---
 
-## 📄 Licencja
+## Contributing
 
-Projekt jest udostępniany na licencji **BSD 3-Clause License**.
+Contributions are welcome! If you want to help:
 
-Szczegóły w pliku [LICENSE](LICENSE).
-
----
-
-## 🏢 Autor
-
-**Project Aurly** (a̳yllo)
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/name`)
+3. Make changes and commit (`git commit -m 'Added new feature'`)
+4. Submit a Pull Request
 
 ---
 
-## 📞 Kontakt
+## License
 
-W przypadku pytań lub problemów, otwórz Issue w repozytorium GitHub.
+The project is licensed under **BSD 3-Clause License**.
+
+See [LICENSE](LICENSE) for details.
 
 ---
 
-*Epo Playground v1.2 | © 2026 Project Aurly*
+## Author
+
+**Project Aurly** (ayllo)
+
+---
+
+## Contact
+
+For questions or issues, open an Issue in the GitHub repository.
+
+---
+
+*Epo Playground v1.2 | (c) 2026 Project Aurly*
