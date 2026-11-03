@@ -1,5 +1,6 @@
 # (Epo) Playground
 <img width="75" height="45" alt="playground" src="https://github.com/user-attachments/assets/6c54f686-e303-493c-8757-c2c85e470c5d" />
+
 > **CLI for communicating with AI Agents**
 
 Epo Playground is a command-line interface tool for interacting with AI models, inspired by Pi and OpenCode CLI interfaces. Currently uses OpenRouter API, with plans to migrate to a custom server in the future.
