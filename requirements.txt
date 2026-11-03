@@ -3,3 +3,5 @@ requests>=2.31.0
 python-dotenv>=1.0.0
 prompt_toolkit>=3.0.0
 llama-cpp-python>=0.3.36
+rich>=14.0.0
+groq>=1.7.0
