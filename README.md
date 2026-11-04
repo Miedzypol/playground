@@ -3,7 +3,7 @@
 
 > **CLI for communicating with AI Agents**
 
-Epo Playground is a command-line interface tool for interacting with AI models, inspired by Pi and OpenCode CLI interfaces. Currently uses OpenRouter API, with plans to migrate to a custom server in the future.
+Epo Playground is a command-line interface tool for interacting with AI models and systems, inspired by Pi and OpenCode CLI interfaces. Currently uses OpenRouter and Groq API, with plans to add more providers and tools later.
 
 ---
 
@@ -55,23 +55,22 @@ notepad .env  # Windows
 
 ## Configuration
 
-### OpenRouter API Key
+### First run
+1. Run the app using `python app.py`
+2. Select a provider (you will get asked to put your API keys into .env . Don't worry, if you alerady have done it, just ignore it) and provide your username
+3. Have fun!
 
-1. Register at [OpenRouter](https://openrouter.ai/)
-2. Generate an API key in your user panel
-3. Add the key to your `.env` file:
-
+How .env looks like:
 ```env
 OPENROUTER_API_KEY=your_api_key_here
+GROQ_API_KEY=your_api_key_here
 ```
+
+> WARNING! Do NOT copy save.json.example and sessions.json.example and remove the .example at the end! In the first run it would get automatically copied.
 
 ### Optional Settings
 
-In the `.env` file, you can also define the default model:
-
-```env
-MODEL=mistralai/mistral-nemo
-```
+In the `config.ini` file, you can also define the default model.
 
 ---
 
@@ -93,6 +92,7 @@ python app.py
 | `/new` | Start new session (clear chat history) |
 | `/model` | Change AI model |
 | `/menu` | Open application menu |
+| `/provider` | Add another AI provider |
 
 ### Basic Interaction
 
@@ -117,13 +117,16 @@ Bye!
 
 ## Local Models
 
+For now, the app does not support local models. Until all the issues would be fixed, local models are off.
+
 ### Supported Models
 
-The application supports local GGUF models running via `llama-cpp-python`.
+No supported models for now (4th of November 2026)
 
-### Available Model Series
+### (un)Available Model Series
 
-- **Mosaic v1** - QuickFix-2B model
+- **Mosaic v1** - QuickFix-2B, Coder-4B (Not available for download)
+- **ADM - 1** - 3B decision model. You can download it on [Hugging Face](https://huggingface.co/Aurley/ADM-1)
 
 ### Downloading Models
 
@@ -173,21 +176,6 @@ playground/
 version = 1.2
 default_model = mistralai/mistral-nemo
 ```
-
-### Default Available Models
-
-- `recursive/flint-v1.0:free`
-- `poolside/laguna-s-2.1:free`
-- `mistralai/mistral-nemo` (default)
-- `inclusionai/ling-3.0-flash`
-- `openai/gpt-oss-120b`
-
----
-
-## Migration to Custom Server
-
-In the future, migration from OpenRouter API to a custom server for AI model communication is planned. The application structure is prepared for this change.
-
 ---
 
 ## Contributing
